@@ -8,7 +8,7 @@ class PacientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pacientBloc = Provider.of<PacientBloc>(context);
-    final doctor = ModalRoute.of<Doctor>(context).settings.arguments;
+    final Doctor doctor = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(

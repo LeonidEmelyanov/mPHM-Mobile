@@ -12,24 +12,29 @@ class LoginPage extends StatelessWidget {
     final loginBloc = Provider.of<LoginBloc>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("mPHM Mobile"),
-        ),
-        body: StreamBuilder<Doctor>(
-            stream: loginBloc.loginStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                ErrorDialog(snapshot.error.toString()).show(context);
-              }
-              if (snapshot.hasData) {
-                WidgetsBinding.instance
-                    .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
-                          context,
-                          '/pacient',
-                          arguments: snapshot.data,
-                        ));
-              }
-              return LoginWidget();
-            }));
+      appBar: AppBar(
+        title: Text("mPHM Mobile"),
+      ),
+      body: StreamBuilder<Doctor>(
+        initialData: null,
+        stream: loginBloc.loginStream,
+        builder: (context, snapshot) {
+          debugPrint(snapshot.connectionState.toString());
+
+          if (snapshot.hasError) {
+            ErrorDialog(snapshot.error.toString()).show(context);
+          }
+          if (snapshot.hasData) {
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => Navigator.pushReplacementNamed(
+                      context,
+                      '/pacient',
+                      arguments: snapshot.data,
+                    ));
+          }
+          return LoginWidget();
+        },
+      ),
+    );
   }
 }

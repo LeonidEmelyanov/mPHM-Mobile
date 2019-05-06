@@ -21,6 +21,8 @@ class LoginBloc {
     try {
       _loadingController.add(true);
       _loginController.add(await _loginApi.login(_login, _password));
+      _login = null;
+      _password = null;
     } catch (e) {
       _loginController.addError(Exception("Invalid login or password"));
     } finally {

@@ -11,18 +11,18 @@ class LoginWidget extends StatelessWidget {
     var _loginBloc = Provider.of<LoginBloc>(context);
 
     return StreamBuilder<bool>(
-        initialData: false,
-        stream: _loginBloc.loadingStream,
-        builder: (context, snapshot) {
-          return Column(
+      initialData: false,
+      stream: _loginBloc.loadingStream,
+      builder: (context, snapshot) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: TextField(
                   decoration: InputDecoration(
                     labelText: "Login",
+                    icon: Icon(Icons.account_box),
                   ),
                   autocorrect: false,
                   textInputAction: TextInputAction.next,
@@ -33,10 +33,11 @@ class LoginWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: TextField(
                   decoration: InputDecoration(
                     labelText: "Password",
+                    icon: Icon(Icons.lock),
                   ),
                   obscureText: true,
                   autocorrect: false,
@@ -47,7 +48,7 @@ class LoginWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
                 child: snapshot.data
                     ? CircularProgressIndicator()
                     : SizedBox(
@@ -62,9 +63,9 @@ class LoginWidget extends StatelessWidget {
                           onPressed: () => _loginBloc.doLogin(),
                         ),
                       ),
-              )
+              ),
             ],
-          );
-        });
+          ),
+    );
   }
 }
