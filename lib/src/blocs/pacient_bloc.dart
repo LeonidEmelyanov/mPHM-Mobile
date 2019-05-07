@@ -1,3 +1,11 @@
+import 'dart:async';
+
 class PacientBloc {
-  dispose() async {}
+  final _controller = StreamController<void>();
+
+  get stream => _controller.stream;
+
+  dispose() async {
+    await _controller.close();
+  }
 }
