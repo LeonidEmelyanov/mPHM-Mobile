@@ -11,6 +11,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => StreamBuilder<Doctor>(
         stream: Provider.of<LoginBloc>(context).loginStream,
         builder: (context, snapshot) =>
-            snapshot.hasData ? PacientWidget() : LoginWidget(snapshot.hasError),
+            snapshot.hasData ? PacientWidget() : LoginWidget(),
       );
 }

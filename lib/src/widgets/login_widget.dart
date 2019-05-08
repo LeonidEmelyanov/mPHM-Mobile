@@ -6,81 +6,83 @@ import 'package:shimmer/shimmer.dart';
 
 class LoginWidget extends StatelessWidget {
   final _passwordFocusNode = FocusNode();
-  final _hasError;
-
-  LoginWidget(this._hasError);
 
   @override
   Widget build(BuildContext context) {
-    var _loginBloc = Provider.of<LoginBloc>(context);
+    final _bloc = Provider.of<LoginBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("mPHM mobile"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _loginFiled(context, _loginBloc),
-            _passwordField(context, _loginBloc),
-            _behaviorButton(context, _loginBloc),
-          ],
-        ),
+      body: StreamBuilder<bool>(
+        initialData: false,
+        stream: _bloc.loadingStream,
+        builder: (context, snapshot) => Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Login",
+                        icon: Icon(Icons.account_box),
+                      ),
+                      autocorrect: false,
+                      textInputAction: TextInputAction.next,
+                      enabled: snapshot.hasError || !snapshot.data,
+                      onChanged: (login) => _bloc.login = login,
+                      onSubmitted: (_) => FocusScope.of(context)
+                          .requestFocus(_passwordFocusNode),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        icon: Icon(Icons.lock),
+                      ),
+                      obscureText: true,
+                      autocorrect: false,
+                      enabled: snapshot.hasError || !snapshot.data,
+                      focusNode: _passwordFocusNode,
+                      onChanged: (password) => _bloc.password = password,
+                      onSubmitted: (_) async => _bloc.doLogin(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: FlatButton(
+                          child: snapshot.data ?? false
+                              ? Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor:
+                                      Theme.of(context).primaryColor,
+                                  child: Text(
+                                    "Loading...",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )
+                              : Text(
+                                  snapshot.hasError
+                                      ? "Invalide login/Password"
+                                      : "Login",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                          color: Theme.of(context).primaryColor,
+                          disabledColor: snapshot.hasError
+                              ? Theme.of(context).errorColor
+                              : Theme.of(context).primaryColor,
+                          onPressed: snapshot.hasError || snapshot.data
+                              ? null
+                              : () async =>
+                                  Provider.of<LoginBloc>(context).doLogin(),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
       ),
     );
   }
-
-  Widget _loginFiled(BuildContext context, LoginBloc bloc) => TextField(
-        decoration: InputDecoration(
-          labelText: "Login",
-          icon: Icon(Icons.account_box),
-        ),
-        autocorrect: false,
-        textInputAction: TextInputAction.next,
-        enabled: !bloc.isLoading,
-        onChanged: (login) => bloc.login = login,
-        onSubmitted: (_) =>
-            FocusScope.of(context).requestFocus(_passwordFocusNode),
-      );
-
-  Widget _passwordField(BuildContext context, LoginBloc bloc) => TextField(
-        decoration: InputDecoration(
-          labelText: "Password",
-          icon: Icon(Icons.lock),
-        ),
-        obscureText: true,
-        autocorrect: false,
-        enabled: !bloc.isLoading,
-        focusNode: _passwordFocusNode,
-        onChanged: (password) => bloc.password = password,
-        onSubmitted: (_) => bloc.doLogin(),
-      );
-
-  Widget _behaviorButton(BuildContext context, LoginBloc bloc) => bloc.isLoading
-      ? Shimmer.fromColors(
-          baseColor: Theme.of(context).primaryColor,
-          highlightColor: Colors.white,
-          child: _loginButton(context, bloc),
-        )
-      : _loginButton(context, bloc);
-
-  Widget _loginButton(BuildContext context, LoginBloc bloc) => Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: SizedBox(
-          width: double.infinity,
-          child: FlatButton(
-            child: Text(
-              _hasError ? "Invalide login/Password" : "Login",
-              style: TextStyle(color: Theme.of(context).bottomAppBarColor),
-            ),
-            color: Theme.of(context).primaryColor,
-            disabledColor: Theme.of(context).errorColor,
-            onPressed:
-                _hasError || bloc.isLoading ? null : () => bloc.doLogin(),
-          ),
-        ),
-      );
 }
