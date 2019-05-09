@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:mphm_mobile/src/models/doctor_model.dart';
-import 'package:mphm_mobile/src/resources/login_api.dart';
+import 'package:mphm_mobile/src/resources/main_api.dart';
 
 class LoginBloc {
-  final _loginApi = LoginApi();
+  final _loginApi = MainApi();
   final _loginController = StreamController<Doctor>();
-  var _loadingController = StreamController<bool>();
+  final _loadingController = StreamController<bool>();
 
   String _login;
   String _password;

@@ -1,14 +1,12 @@
 class Doctor {
   final int id;
-  final String name0;
-  final String name1;
-  final String name2;
-
-  Doctor(this.id, this.name0, this.name1, this.name2);
+  final String name;
+  final String surname;
+  final String lastname;
 
   Doctor.fromJson(Map<String, dynamic> json)
-      : id = json["id"],
-        name0 = json["name0"],
-        name1 = json["name1"],
-        name2 = json["name2"];
+      : id = json["Id"],
+        name = json["Name1"],
+        surname = json["Name0"],
+        lastname = json["Name2"];
 }
