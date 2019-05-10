@@ -1,16 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/models/patient.dart';
 import 'package:mphm_mobile/src/resources/main_api.dart';
 
-class PatientBloc {
+class PatientBloc with ChangeNotifier {
   final _api = MainApi();
   final _patientsController = StreamController<Patients>();
   final int _doctorId;
 
-  PatientBloc(this._doctorId) {
-    getPatients();
-  }
+  PatientBloc(this._doctorId);
 
   get patients => _patientsController.stream;
 
@@ -23,7 +22,9 @@ class PatientBloc {
     }
   }
 
-  dispose() async {
-    await _patientsController.close();
+  @override
+  dispose() {
+    super.dispose();
+    _patientsController.close();
   }
 }

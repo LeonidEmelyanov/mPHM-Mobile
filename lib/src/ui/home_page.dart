@@ -12,10 +12,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => StreamBuilder<Doctor>(
         stream: Provider.of<LoginBloc>(context).loginStream,
         builder: (context, snapshot) => snapshot.hasData
-            ? Provider<PatientBloc>(
+            ? ChangeNotifierProvider<PatientBloc>(
                 builder: (_) => PatientBloc(snapshot.data.id),
                 child: PatientsWidget(),
-                dispose: (_, bloc) => bloc.dispose(),
               )
             : LoginWidget(),
       );

@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
 import 'package:mphm_mobile/src/resources/main_api.dart';
 
-class LoginBloc {
+class LoginBloc with ChangeNotifier {
   final _loginApi = MainApi();
   final _loginController = StreamController<Doctor>();
   final _loadingController = StreamController<bool>();
@@ -36,8 +37,10 @@ class LoginBloc {
     }
   }
 
-  dispose() async {
-    await _loginController.close();
-    await _loadingController.close();
+  @override
+  dispose() {
+    super.dispose();
+    _loginController.close();
+    _loadingController.close();
   }
 }

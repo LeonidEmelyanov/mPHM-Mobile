@@ -10,10 +10,9 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Provider<LoginBloc>(
+        home: ChangeNotifierProvider<LoginBloc>(
           builder: (_) => LoginBloc(),
           child: HomePage(),
-          dispose: (_, bloc) async => bloc.dispose(),
         ),
       );
 }
