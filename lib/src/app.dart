@@ -20,8 +20,8 @@ class App extends StatelessWidget {
         accentColor: AppColors.accentColor,
         canvasColor: Colors.transparent,
       ),
-      home: ChangeNotifierProvider<LoginBloc>(
-        builder: (_) => LoginBloc(),
+      home: ChangeNotifierProvider<LoginBloc>.value(
+        notifier: LoginBloc(),
         child: HomePage(),
       ),
     );

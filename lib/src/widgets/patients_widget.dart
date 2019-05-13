@@ -16,39 +16,35 @@ class PatientsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<PatientBloc>(context);
+    final _bloc = Provider.of<PatientBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Patients"),
       ),
-      body: StreamBuilder<Patients>(
-        stream: bloc.patients,
-        builder: (context, snapshot) {
-          final patients = snapshot.data?.patients ?? [];
+      body: ChangeNotifierProvider.value(
+        notifier: _bloc,
+        child: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          onRefresh: () => _bloc.getPatients(),
+          child: ListView.builder(
+            itemCount: _bloc.patients?.length ?? 0,
+            itemBuilder: (context, index) {
+              final patient = _bloc.patients[index];
 
-          return RefreshIndicator(
-            key: _refreshIndicatorKey,
-            onRefresh: () => bloc.getPatients(),
-            child: ListView.builder(
-              itemCount: patients.length,
-              itemBuilder: (context, index) {
-                final patient = patients[index];
-
-                return ListTile(
-                  leading: Icon(
-                    Icons.account_circle,
-                    size: 40,
-                  ),
-                  title: Text(
-                      "${patient.surname} ${patient.name} ${patient.lastname}"),
-                  subtitle: Text("Age: ${patient.age.toString()}"),
-                  onTap: () {},
-                );
-              },
-            ),
-          );
-        },
+              return ListTile(
+                leading: Icon(
+                  Icons.account_circle,
+                  size: 40,
+                ),
+                title: Text(
+                    "${patient.surname} ${patient.name} ${patient.lastname}"),
+                subtitle: Text("Age: ${patient.age.toString()}"),
+                onTap: () {},
+              );
+            },
+          ),
+        ),
       ),
     );
   }

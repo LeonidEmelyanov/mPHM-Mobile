@@ -6,25 +6,27 @@ import 'package:mphm_mobile/src/resources/main_api.dart';
 
 class PatientBloc with ChangeNotifier {
   final _api = MainApi();
-  final _patientsController = StreamController<Patients>();
   final int _doctorId;
+
+  Patients _pacients;
+  bool _hasError;
 
   PatientBloc(this._doctorId);
 
-  get patients => _patientsController.stream;
+  List<Patient> get patients => _pacients?.patients ?? [];
+  get hasError => _hasError;
 
   Future<void> getPatients() async {
     try {
-      _patientsController.add(null);
-      _patientsController.add(await _api.getPatients(_doctorId));
-    } catch (e) {
-      _patientsController.addError(e);
-    }
-  }
+      _pacients = null;
+      _hasError = false;
+      notifyListeners();
 
-  @override
-  dispose() {
-    super.dispose();
-    _patientsController.close();
+      _pacients = await _api.getPatients(_doctorId);
+    } catch (e) {
+      _hasError = true;
+    } finally {
+      notifyListeners();
+    }
   }
 }

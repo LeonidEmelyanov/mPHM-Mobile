@@ -15,73 +15,71 @@ class LoginWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text("mPHM mobile"),
       ),
-      body: StreamBuilder<bool>(
-        initialData: false,
-        stream: _bloc.loadingStream,
-        builder: (context, snapshot) => Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Login",
-                        icon: Icon(Icons.account_box),
-                      ),
-                      autocorrect: false,
-                      textInputAction: TextInputAction.next,
-                      enabled: snapshot.hasError || !snapshot.data,
-                      onChanged: (login) => _bloc.login = login,
-                      onSubmitted: (_) => FocusScope.of(context)
-                          .requestFocus(_passwordFocusNode),
+      body: ChangeNotifierProvider.value(
+        notifier: _bloc,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Login",
+                    icon: Icon(Icons.account_box),
+                  ),
+                  autocorrect: false,
+                  textInputAction: TextInputAction.next,
+                  enabled: _bloc.hasError || !_bloc.isLoading,
+                  onChanged: (login) => _bloc.login = login,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_passwordFocusNode),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    icon: Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                  autocorrect: false,
+                  enabled: _bloc.hasError || !_bloc.isLoading,
+                  focusNode: _passwordFocusNode,
+                  onChanged: (password) => _bloc.password = password,
+                  onSubmitted: (_) async => _bloc.doLogin(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FlatButton(
+                      child: _bloc.isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Theme.of(context).primaryColor,
+                              child: Text(
+                                "Loading...",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          : Text(
+                              _bloc.hasError
+                                  ? "Invalide login/Password"
+                                  : "Login",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: _bloc.hasError
+                          ? Theme.of(context).errorColor
+                          : Theme.of(context).primaryColor,
+                      onPressed: _bloc.hasError || _bloc.isLoading
+                          ? null
+                          : () async =>
+                              Provider.of<LoginBloc>(context).doLogin(),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        icon: Icon(Icons.lock),
-                      ),
-                      obscureText: true,
-                      autocorrect: false,
-                      enabled: snapshot.hasError || !snapshot.data,
-                      focusNode: _passwordFocusNode,
-                      onChanged: (password) => _bloc.password = password,
-                      onSubmitted: (_) async => _bloc.doLogin(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: FlatButton(
-                          child: snapshot.data ?? false
-                              ? Shimmer.fromColors(
-                                  baseColor: Colors.white,
-                                  highlightColor:
-                                      Theme.of(context).primaryColor,
-                                  child: Text(
-                                    "Loading...",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )
-                              : Text(
-                                  snapshot.hasError
-                                      ? "Invalide login/Password"
-                                      : "Login",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                          color: Theme.of(context).primaryColor,
-                          disabledColor: snapshot.hasError
-                              ? Theme.of(context).errorColor
-                              : Theme.of(context).primaryColor,
-                          onPressed: snapshot.hasError || snapshot.data
-                              ? null
-                              : () async =>
-                                  Provider.of<LoginBloc>(context).doLogin(),
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
+                  ),
+                ),
+              ]),
+        ),
       ),
     );
   }
