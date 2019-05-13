@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/blocs/patient_bloc.dart';
-import 'package:mphm_mobile/src/models/patient.dart';
 import 'package:provider/provider.dart';
 
 class PatientsWidget extends StatelessWidget {
