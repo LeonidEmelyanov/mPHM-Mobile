@@ -55,7 +55,7 @@ class LoginWidget extends StatelessWidget {
                       child: _bloc.isLoading
                           ? Shimmer.fromColors(
                               baseColor: Colors.white,
-                              highlightColor: Theme.of(context).primaryColor,
+                              highlightColor: Theme.of(context).accentColor,
                               child: Text(
                                 "Loading...",
                                 style: TextStyle(color: Colors.white),
@@ -67,10 +67,10 @@ class LoginWidget extends StatelessWidget {
                                   : "Login",
                               style: TextStyle(color: Colors.white),
                             ),
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).accentColor,
                       disabledColor: _bloc.hasError
                           ? Theme.of(context).errorColor
-                          : Theme.of(context).primaryColor,
+                          : Theme.of(context).accentColor,
                       onPressed: _bloc.hasError || _bloc.isLoading
                           ? null
                           : () async =>
