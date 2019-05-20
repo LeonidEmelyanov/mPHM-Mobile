@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:mphm_mobile/src/data/main_repository.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
-import 'package:mphm_mobile/src/resources/main_api.dart';
 
 class LoginBloc with ChangeNotifier {
-  final _loginApi = MainApi();
+  final MainRepository _repository;
 
   bool _isLoading = false;
   Doctor _doctor;
@@ -15,6 +15,8 @@ class LoginBloc with ChangeNotifier {
   bool get isLoading => _isLoading;
   Doctor get doctor => _doctor;
   bool get hasError => _hasError;
+
+  LoginBloc(this._repository);
 
   set login(String login) {
     _login = login;
@@ -33,7 +35,7 @@ class LoginBloc with ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      _doctor = await _loginApi.login(_login, _password);
+      _doctor = await _repository.login(_login, _password);
       _login = null;
       _password = null;
     } catch (e) {

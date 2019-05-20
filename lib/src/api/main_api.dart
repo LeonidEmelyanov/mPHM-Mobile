@@ -4,10 +4,12 @@ import 'package:mphm_mobile/src/models/doctor_model.dart';
 import 'package:mphm_mobile/src/models/patient.dart';
 
 class MainApi {
-  final _dio = Dio(BaseOptions(
-    baseUrl: "http://smarttechappl.com/",
-    responseType: ResponseType.plain,
-  ));
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: "http://smarttechappl.com/",
+      responseType: ResponseType.plain,
+    ),
+  );
 
   Future<Doctor> login(String login, String password) async {
     final response = await _dio
