@@ -5,15 +5,15 @@ import 'package:mphm_mobile/src/models/doctor_model.dart';
 class LoginBloc with ChangeNotifier {
   final MainRepository _repository;
 
-  bool _isLoading = false;
   Doctor _doctor;
+  bool _isLoading = false;
   bool _hasError = false;
 
   String _login;
   String _password;
 
-  bool get isLoading => _isLoading;
   Doctor get doctor => _doctor;
+  bool get isLoading => _isLoading;
   bool get hasError => _hasError;
 
   LoginBloc(this._repository);

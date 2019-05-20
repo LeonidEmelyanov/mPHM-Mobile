@@ -15,12 +15,12 @@ class HomePage extends StatelessWidget {
 
     return ChangeNotifierProvider.value(
       notifier: _bloc,
-      child: _bloc.doctor != null
-          ? ChangeNotifierProvider<PatientBloc>.value(
+      child: _bloc.doctor == null
+          ? LoginWidget()
+          : ChangeNotifierProvider<PatientBloc>.value(
               notifier: PatientBloc(_repository, _bloc.doctor.id),
               child: PatientsWidget(),
-            )
-          : LoginWidget(),
+            ),
     );
   }
 }

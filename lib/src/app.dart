@@ -23,9 +23,9 @@ class App extends StatelessWidget {
             ),
             ChangeNotifierProvider<LoginBloc>.value(
               notifier: LoginBloc(_repository),
-              child: HomePage(),
             ),
           ],
+          child: HomePage(),
         ),
       );
 }

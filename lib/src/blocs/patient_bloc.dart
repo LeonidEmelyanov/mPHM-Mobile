@@ -9,16 +9,21 @@ class PatientBloc with ChangeNotifier {
   final int _doctorId;
 
   Patients _pacients;
+  bool _isLoading = true;
   bool _hasError;
 
-  PatientBloc(this._repository, this._doctorId);
+  PatientBloc(this._repository, this._doctorId) {
+    getPatients();
+  }
 
   List<Patient> get patients => _pacients?.patients ?? [];
+  get isLoading => _isLoading;
   get hasError => _hasError;
 
   Future<void> getPatients([bool reload = false]) async {
     try {
       _pacients = null;
+      _isLoading = !reload;
       _hasError = false;
       notifyListeners();
 
@@ -26,6 +31,7 @@ class PatientBloc with ChangeNotifier {
     } catch (e) {
       _hasError = true;
     } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }

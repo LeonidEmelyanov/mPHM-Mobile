@@ -7,13 +7,6 @@ class PatientsWidget extends StatelessWidget {
   final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
-  StatelessElement createElement() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState?.show());
-    return super.createElement();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final _bloc = Provider.of<PatientBloc>(context);
 
@@ -23,25 +16,34 @@ class PatientsWidget extends StatelessWidget {
       ),
       body: ChangeNotifierProvider.value(
         notifier: _bloc,
-        child: RefreshIndicator(
-          key: _refreshIndicatorKey,
-          onRefresh: () => _bloc.getPatients(),
-          child: ListView.builder(
-            itemCount: _bloc.patients?.length ?? 0,
-            itemBuilder: (context, index) {
-              final patient = _bloc.patients[index];
+        child: AnimatedCrossFade(
+          duration: Duration(microseconds: 300),
+          crossFadeState: _bloc.isLoading
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
+          firstChild: Center(
+            child: CircularProgressIndicator(),
+          ),
+          secondChild: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: () => _bloc.getPatients(true),
+            child: ListView.builder(
+              itemCount: _bloc.patients?.length ?? 0,
+              itemBuilder: (context, index) {
+                final patient = _bloc.patients[index];
 
-              return ListTile(
-                leading: Icon(
-                  Icons.account_circle,
-                  size: 40,
-                ),
-                title: Text(
-                    "${patient.surname} ${patient.name} ${patient.lastname}"),
-                subtitle: Text("Age: ${patient.age.toString()}"),
-                onTap: () {},
-              );
-            },
+                return ListTile(
+                  leading: Icon(
+                    Icons.account_circle,
+                    size: 40,
+                  ),
+                  title: Text(
+                      "${patient.surname} ${patient.name} ${patient.lastname}"),
+                  subtitle: Text("Age: ${patient.age.toString()}"),
+                  onTap: () {},
+                );
+              },
+            ),
           ),
         ),
       ),
