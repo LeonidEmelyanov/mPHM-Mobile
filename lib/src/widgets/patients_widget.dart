@@ -14,35 +14,41 @@ class PatientsWidget extends StatelessWidget {
       ),
       body: ChangeNotifierProvider.value(
         notifier: _bloc,
-        child: AnimatedCrossFade(
-          duration: Duration(milliseconds: 300),
-          crossFadeState: _bloc.isLoading ?? false
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          firstChild: Center(
-            child: CircularProgressIndicator(),
-          ),
-          secondChild: RefreshIndicator(
-            onRefresh: () => _bloc.getPatients(true),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _bloc.patients?.length,
-              itemBuilder: (context, index) {
-                final patient = _bloc.patients[index];
+        child: Stack(
+          children: [
+            AnimatedOpacity(
+              opacity: _bloc.isLoading ?? false ? 0 : 1,
+              duration: Duration(milliseconds: 300),
+              child: RefreshIndicator(
+                onRefresh: () => _bloc.getPatients(true),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _bloc.patients?.length,
+                  itemBuilder: (context, index) {
+                    final patient = _bloc.patients[index];
 
-                return ListTile(
-                  leading: Icon(
-                    Icons.account_circle,
-                    size: 40,
-                  ),
-                  title: Text(
-                      "${patient.surname} ${patient.name} ${patient.lastname}"),
-                  subtitle: Text("Age: ${patient.age.toString()}"),
-                  onTap: () {},
-                );
-              },
+                    return ListTile(
+                      leading: Icon(
+                        Icons.account_circle,
+                        size: 40,
+                      ),
+                      title: Text(
+                          "${patient.surname} ${patient.name} ${patient.lastname}"),
+                      subtitle: Text("Age: ${patient.age.toString()}"),
+                      onTap: () {},
+                    );
+                  },
+                ),
+              ),
             ),
-          ),
+            AnimatedOpacity(
+              opacity: _bloc.isLoading ?? false ? 1 : 0,
+              duration: Duration(milliseconds: 300),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ],
         ),
       ),
     );
