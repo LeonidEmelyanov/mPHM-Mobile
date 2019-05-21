@@ -1,7 +1,7 @@
 import 'package:mphm_mobile/src/api/main_api.dart';
 import 'package:mphm_mobile/src/data/repository.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
-import 'package:mphm_mobile/src/models/patient.dart';
+import 'package:mphm_mobile/src/models/patient_model.dart';
 
 class MainRepository extends Repository {
   final _api = MainApi();

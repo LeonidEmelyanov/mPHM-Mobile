@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
-import 'package:mphm_mobile/src/models/patient.dart';
+import 'package:mphm_mobile/src/models/patient_model.dart';
 
 class MainApi {
   final _dio = Dio(

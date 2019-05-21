@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/data/main_repository.dart';
-import 'package:mphm_mobile/src/models/patient.dart';
+import 'package:mphm_mobile/src/models/patient_model.dart';
 
 class PatientBloc with ChangeNotifier {
   final MainRepository _repository;
