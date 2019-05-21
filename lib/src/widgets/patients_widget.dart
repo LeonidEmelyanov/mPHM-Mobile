@@ -4,8 +4,6 @@ import 'package:mphm_mobile/src/blocs/patient_bloc.dart';
 import 'package:provider/provider.dart';
 
 class PatientsWidget extends StatelessWidget {
-  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-
   @override
   Widget build(BuildContext context) {
     final _bloc = Provider.of<PatientBloc>(context);
@@ -17,18 +15,18 @@ class PatientsWidget extends StatelessWidget {
       body: ChangeNotifierProvider.value(
         notifier: _bloc,
         child: AnimatedCrossFade(
-          duration: Duration(microseconds: 300),
-          crossFadeState: _bloc.isLoading
+          duration: Duration(milliseconds: 300),
+          crossFadeState: _bloc.isLoading ?? false
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
           firstChild: Center(
             child: CircularProgressIndicator(),
           ),
           secondChild: RefreshIndicator(
-            key: _refreshIndicatorKey,
             onRefresh: () => _bloc.getPatients(true),
             child: ListView.builder(
-              itemCount: _bloc.patients?.length ?? 0,
+              shrinkWrap: true,
+              itemCount: _bloc.patients?.length,
               itemBuilder: (context, index) {
                 final patient = _bloc.patients[index];
 

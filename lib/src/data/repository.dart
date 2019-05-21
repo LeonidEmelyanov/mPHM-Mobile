@@ -12,6 +12,6 @@ class Repository {
     if (reload) {
       _cash.remove(key);
     }
-    return _cash[key] ?? (_cash[key] = await func());
+    return await _cash[key] ?? (_cash[key] = func());
   }
 }
