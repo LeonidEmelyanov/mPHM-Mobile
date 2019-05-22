@@ -1,12 +1,3 @@
-class Patients {
-  final List<Patient> patients;
-
-  Patients.fromJson(Map<String, dynamic> json)
-      : patients = json["Data"]
-            .map<Patient>((patient) => Patient.fromJson(patient))
-            .toList();
-}
-
 class Patient {
   final int id;
   final String name;

@@ -7,14 +7,14 @@ import '../app.dart';
 class LoginBloc with ChangeNotifier {
   final _repository = App.getIt.get<MainRepository>();
 
-  Doctor _doctor;
+  DoctorModel _doctor;
   bool _isLoading = false;
   bool _hasError = false;
 
   String _login;
   String _password;
 
-  Doctor get doctor => _doctor;
+  DoctorModel get doctor => _doctor;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
 

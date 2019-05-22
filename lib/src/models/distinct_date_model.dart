@@ -1,14 +1,14 @@
-class DistinctDates {
-  final List<DistinctDate> data;
+class DistinctDatesModel {
+  final List<DistinctDateModel> data;
 
-  DistinctDates.fromJson(Map<String, dynamic> json) : data = json["Data"];
+  DistinctDatesModel.fromJson(Map<String, dynamic> json) : data = json["Data"];
 }
 
-class DistinctDate {
+class DistinctDateModel {
   final String oDate;
   final int totalTimeSeconds;
 
-  DistinctDate.fromJson(Map<String, dynamic> json)
+  DistinctDateModel.fromJson(Map<String, dynamic> json)
       : oDate = json["ODate"],
         totalTimeSeconds = json["TotalTimeSeconds"];
 }

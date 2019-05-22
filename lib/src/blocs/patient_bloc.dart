@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/app.dart';
 import 'package:mphm_mobile/src/data/main_repository.dart';
-import 'package:mphm_mobile/src/models/patient_model.dart';
+import 'package:mphm_mobile/src/models/patients_model.dart';
 
 class PatientBloc with ChangeNotifier {
   final _repository = App.getIt.get<MainRepository>();
   final int _doctorId;
 
-  Patients _pacients;
+  List<Patient> _pacients;
   bool _isLoading = true;
   bool _hasError;
 
@@ -17,7 +17,7 @@ class PatientBloc with ChangeNotifier {
     getPatients();
   }
 
-  List<Patient> get patients => _pacients?.patients ?? [];
+  List<Patient> get patients => _pacients ?? [];
   get isLoading => _isLoading;
   get hasError => _hasError;
 
