@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
+import 'package:mphm_mobile/src/models/day_info_model.dart';
 import 'package:mphm_mobile/src/models/distinct_date_model.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
 import 'package:mphm_mobile/src/models/holter_table_model.dart';
@@ -65,5 +66,27 @@ class MainApi {
       "screenWidthMm": screenWidthMm,
     });
     return ChartDataFragmentModel.json(json.decode(response.data));
+  }
+
+  Future<List<Patient>> getPatientsByDoctor(int doctorId) async {
+    final result = await _dio.post(
+      "Patients/GetByDoctor",
+      queryParameters: {"doctorId": doctorId},
+    );
+    return json
+        .decode(result.data)
+        .map<Patient>((item) => Patient.fromJson(item))
+        .toList();
+  }
+
+  Future<List<DayInfoModel>> getDayInfosByPatient(int patientId) async {
+    final result = await _dio.post(
+      "Data/GetDayInfosByPatient",
+      queryParameters: {"patientId": patientId},
+    );
+    return json
+        .decode(result.data)
+        .map<DayInfoModel>((item) => DayInfoModel.fromJson(item))
+        .toList();
   }
 }
