@@ -6,7 +6,7 @@ class PatientCardiaogramsBloc extends BaseBloc<List<DistinctDateModel>> {
 
   PatientCardiaogramsBloc(this.patientId);
 
-  void getDates([bool reload = false]) async {
+  void load([bool reload = false]) async {
     try {
       isLoading = !reload;
       data = await repository.getDistinctDates(patientId, reload);

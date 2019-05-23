@@ -10,7 +10,7 @@ class BaseBloc<T> extends ChangeNotifier {
   var _error;
   T _data;
 
-  get isLoading => _isLoading;
+  get isLoading => _isLoading ?? false;
 
   @protected
   set isLoading(bool isLoading) {

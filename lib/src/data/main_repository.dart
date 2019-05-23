@@ -69,11 +69,17 @@ class MainRepository extends Repository {
 
   Future<List<PatientModel>> getPatientsByDoctor(
           int doctorId, bool reload) async =>
-      getData("patients_by_doctor_$doctorId", reload,
-          () => _api.getPatientsByDoctor(doctorId));
+      getData(
+        "patients_by_doctor_$doctorId",
+        reload,
+        () => _api.getPatientsByDoctor(doctorId),
+      );
 
   Future<List<DayInfoModel>> getDayInfosByPatient(
           int patientId, bool reload) async =>
-      getData("data_infos_by_patient_$patientId", reload,
-          () => _api.getDayInfosByPatient(patientId));
+      getData(
+        "data_infos_by_patient_$patientId",
+        reload,
+        () => _api.getDayInfosByPatient(patientId),
+      );
 }

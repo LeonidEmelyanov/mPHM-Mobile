@@ -23,7 +23,7 @@ class PatientsWidget extends StatelessWidget {
                 onRefresh: () => _bloc.getPatients(true),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _bloc.data?.length,
+                  itemCount: _bloc.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     final patient = _bloc.data[index];
 

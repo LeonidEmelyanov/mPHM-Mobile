@@ -13,10 +13,10 @@ class HomePage extends StatelessWidget {
 
     return ChangeNotifierProvider.value(
       notifier: _bloc,
-      child: _bloc.doctor == null
+      child: _bloc.data == null
           ? LoginWidget()
           : ChangeNotifierProvider<PatientBloc>.value(
-              notifier: PatientBloc(_bloc.doctor.id),
+              notifier: PatientBloc(_bloc.data.id),
               child: PatientsWidget(),
             ),
     );
