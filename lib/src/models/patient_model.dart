@@ -1,4 +1,4 @@
-class Patient {
+class PatientModel {
   final int id;
   final String name;
   final String surname;
@@ -6,7 +6,7 @@ class Patient {
   final String birthday;
   final int age;
 
-  Patient.fromJson(Map<String, dynamic> json)
+  PatientModel.fromJson(Map<String, dynamic> json)
       : id = json["Id"],
         name = json["Name1"],
         surname = json["Name0"],

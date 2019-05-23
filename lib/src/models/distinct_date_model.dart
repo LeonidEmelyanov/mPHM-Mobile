@@ -1,9 +1,3 @@
-class DistinctDatesModel {
-  final List<DistinctDateModel> data;
-
-  DistinctDatesModel.fromJson(Map<String, dynamic> json) : data = json["Data"];
-}
-
 class DistinctDateModel {
   final String oDate;
   final int totalTimeSeconds;

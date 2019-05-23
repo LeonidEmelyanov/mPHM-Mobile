@@ -1,48 +1,29 @@
-import 'package:flutter/widgets.dart';
-import 'package:mphm_mobile/src/data/main_repository.dart';
+import 'package:mphm_mobile/src/blocs/base_bloc.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
 
-import '../app.dart';
-
-class LoginBloc with ChangeNotifier {
-  final _repository = App.getIt.get<MainRepository>();
-
-  DoctorModel _doctor;
-  bool _isLoading = false;
-  bool _hasError = false;
-
+class LoginBloc extends BaseBloc<DoctorModel> {
   String _login;
   String _password;
 
-  DoctorModel get doctor => _doctor;
-  bool get isLoading => _isLoading;
-  bool get hasError => _hasError;
-
   set login(String login) {
     _login = login;
-    _hasError = false;
-    notifyListeners();
+    error = null;
   }
 
   set password(String password) {
     _password = password;
-    _hasError = false;
-    notifyListeners();
+    error = null;
   }
 
-  doLogin() async {
+  void doLogin() async {
     try {
-      _isLoading = true;
-      notifyListeners();
+      isLoading = true;
+      data = await repository.login(_login, _password);
 
-      _doctor = await _repository.login(_login, _password);
       _login = null;
       _password = null;
     } catch (e) {
-      _hasError = true;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      error = e;
     }
   }
 }

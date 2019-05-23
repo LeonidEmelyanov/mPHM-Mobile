@@ -1,11 +1,12 @@
 import 'package:mphm_mobile/src/api/main_api.dart';
 import 'package:mphm_mobile/src/data/repository.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
+import 'package:mphm_mobile/src/models/data_info_model.dart';
 import 'package:mphm_mobile/src/models/day_info_model.dart';
 import 'package:mphm_mobile/src/models/distinct_date_model.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
 import 'package:mphm_mobile/src/models/holter_table_model.dart';
-import 'package:mphm_mobile/src/models/patients_model.dart';
+import 'package:mphm_mobile/src/models/patient_model.dart';
 
 class MainRepository extends Repository {
   final _api = MainApi();
@@ -13,18 +14,30 @@ class MainRepository extends Repository {
   Future<DoctorModel> login(String login, String password) async =>
       await _api.login(login, password);
 
-  Future<List<Patient>> getPatients(int doctorId, bool reload) async => getData(
+  Future<List<PatientModel>> getPatients(int doctorId, bool reload) async =>
+      getData(
         "patients",
         reload,
         () => _api.getPatients(doctorId),
       );
 
-  Future<DistinctDatesModel> getDistinctDates(
+  Future<List<DistinctDateModel>> getDistinctDates(
           int patientId, bool reload) async =>
       getData(
         "distinc_dates_for_$patientId",
         reload,
         () => _api.getDistinctDates(patientId),
+      );
+
+  Future<List<DataInfoModel>> getDatasByDate(
+    int date,
+    int patientId,
+    bool reload,
+  ) async =>
+      getData(
+        "data_info_from_${date}_for_$patientId",
+        reload,
+        () => _api.getDatasByDate(date, patientId),
       );
 
   Future<HolterTableModel> getHolterTableByDay(
@@ -54,7 +67,8 @@ class MainRepository extends Repository {
                 screenWidthMm,
               ));
 
-  Future<List<Patient>> getPatientsByDoctor(int doctorId, bool reload) async =>
+  Future<List<PatientModel>> getPatientsByDoctor(
+          int doctorId, bool reload) async =>
       getData("patients_by_doctor_$doctorId", reload,
           () => _api.getPatientsByDoctor(doctorId));
 

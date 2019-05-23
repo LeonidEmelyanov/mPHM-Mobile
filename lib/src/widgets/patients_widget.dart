@@ -23,9 +23,9 @@ class PatientsWidget extends StatelessWidget {
                 onRefresh: () => _bloc.getPatients(true),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _bloc.patients?.length,
+                  itemCount: _bloc.data?.length,
                   itemBuilder: (context, index) {
-                    final patient = _bloc.patients[index];
+                    final patient = _bloc.data[index];
 
                     return ListTile(
                       leading: Icon(
