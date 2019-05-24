@@ -41,7 +41,7 @@ class MainApi {
       queryParameters: {"pitientID": patientId},
     );
     return json
-        .decode(response.data)
+        .decode(response.data)["Data"]
         .map<DistinctDateModel>((item) => DistinctDateModel.fromJson(item))
         .toList();
   }
@@ -55,7 +55,7 @@ class MainApi {
       },
     );
     return json
-        .decode(response.data)
+        .decode(response.data)["Data"]
         .map<DataInfoModel>((item) => DataInfoModel.fromJson(item))
         .toList();
   }
@@ -92,7 +92,7 @@ class MainApi {
       queryParameters: {"doctorId": doctorId},
     );
     return json
-        .decode(result.data)
+        .decode(result.data)["Data"]
         .map<PatientModel>((item) => PatientModel.fromJson(item))
         .toList();
   }
@@ -103,7 +103,7 @@ class MainApi {
       queryParameters: {"patientId": patientId},
     );
     return json
-        .decode(result.data)
+        .decode(result.data)["Data"]
         .map<DayInfoModel>((item) => DayInfoModel.fromJson(item))
         .toList();
   }
