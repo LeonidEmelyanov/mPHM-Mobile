@@ -10,8 +10,12 @@ class Repository {
     Future<T> Function() func,
   ) async {
     if (reload) {
-      _cash.remove(key);
+      _clean(key);
     }
     return await _cash[key] ?? (_cash[key] = func());
+  }
+
+  void _clean(String key) {
+    _cash.removeWhere((k, _) => k.contains(key));
   }
 }

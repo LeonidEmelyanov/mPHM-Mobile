@@ -35,6 +35,17 @@ class MainApi {
         .toList();
   }
 
+  Future<List<DayInfoModel>> getDayInfosByPatient(int patientId) async {
+    final result = await _dio.post(
+      "Data/GetDayInfosByPatient",
+      queryParameters: {"patientId": patientId},
+    );
+    return json
+        .decode(result.data)["Data"]
+        .map<DayInfoModel>((item) => DayInfoModel.fromJson(item))
+        .toList();
+  }
+
   Future<List<DistinctDateModel>> getDistinctDates(int patientId) async {
     final response = await _dio.post(
       "data/GetDistinctDates",
@@ -94,17 +105,6 @@ class MainApi {
     return json
         .decode(result.data)["Data"]
         .map<PatientModel>((item) => PatientModel.fromJson(item))
-        .toList();
-  }
-
-  Future<List<DayInfoModel>> getDayInfosByPatient(int patientId) async {
-    final result = await _dio.post(
-      "Data/GetDayInfosByPatient",
-      queryParameters: {"patientId": patientId},
-    );
-    return json
-        .decode(result.data)["Data"]
-        .map<DayInfoModel>((item) => DayInfoModel.fromJson(item))
         .toList();
   }
 }

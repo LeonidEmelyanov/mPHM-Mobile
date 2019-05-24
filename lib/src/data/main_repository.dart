@@ -21,10 +21,18 @@ class MainRepository extends Repository {
         () => _api.getPatients(doctorId),
       );
 
+  Future<List<DayInfoModel>> getDayInfosByPatient(
+          int patientId, bool reload) async =>
+      getData(
+        "patients/$patientId",
+        reload,
+        () => _api.getDayInfosByPatient(patientId),
+      );
+
   Future<List<DistinctDateModel>> getDistinctDates(
           int patientId, bool reload) async =>
       getData(
-        "distinc_dates_for_$patientId",
+        "patients/$patientId/dates",
         reload,
         () => _api.getDistinctDates(patientId),
       );
@@ -35,7 +43,7 @@ class MainRepository extends Repository {
     bool reload,
   ) async =>
       getData(
-        "data_info_from_${date}_for_$patientId",
+        "patirnts/$patientId/dates/$date",
         reload,
         () => _api.getDatasByDate(date, patientId),
       );
@@ -43,7 +51,7 @@ class MainRepository extends Repository {
   Future<HolterTableModel> getHolterTableByDay(
           int unixDate, bool reload) async =>
       getData(
-        "holter_table_for_$unixDate",
+        "holter_table/$unixDate",
         reload,
         () => _api.getHolterTableByDay(unixDate),
       );
@@ -57,7 +65,7 @@ class MainRepository extends Repository {
     bool reload,
   ) async =>
       getData(
-          "chart_data_fragment_for_${selectedLead}_with_${dataId}_and_${fragmentId}_at_$initPoint",
+          "chart_data_fragment/$selectedLead/$dataId/$fragmentId/$initPoint",
           reload,
           () => _api.getChartDataFragment(
                 selectedLead,
@@ -70,16 +78,8 @@ class MainRepository extends Repository {
   Future<List<PatientModel>> getPatientsByDoctor(
           int doctorId, bool reload) async =>
       getData(
-        "patients_by_doctor_$doctorId",
+        "patients_by_doctor/$doctorId",
         reload,
         () => _api.getPatientsByDoctor(doctorId),
-      );
-
-  Future<List<DayInfoModel>> getDayInfosByPatient(
-          int patientId, bool reload) async =>
-      getData(
-        "data_infos_by_patient_$patientId",
-        reload,
-        () => _api.getDayInfosByPatient(patientId),
       );
 }

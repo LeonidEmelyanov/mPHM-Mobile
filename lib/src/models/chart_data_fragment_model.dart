@@ -1,4 +1,13 @@
-import 'package:mphm_mobile/src/models/data_by_lead_model.dart';
+class DataByLeadModel {
+  final int initPoint;
+  final String leadName;
+  final String base64ByteData;
+
+  DataByLeadModel.fromJson(Map<String, dynamic> json)
+      : initPoint = json["InitPoint"],
+        leadName = json["LeadName"],
+        base64ByteData = json["Base64ByteData"];
+}
 
 class ChartDataFragmentModel {
   final List<DataByLeadModel> dataByLeads;
