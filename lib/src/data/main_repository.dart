@@ -43,7 +43,7 @@ class MainRepository extends Repository {
     bool reload,
   ) async =>
       getData(
-        "patirnts/$patientId/dates/$date",
+        "patients/$patientId/dates/$date",
         reload,
         () => _api.getDatasByDate(date, patientId),
       );
