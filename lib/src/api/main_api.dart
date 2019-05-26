@@ -49,7 +49,7 @@ class MainApi {
   Future<List<DistinctDateModel>> getDistinctDates(int patientId) async {
     final response = await _dio.post(
       "data/GetDistinctDates",
-      queryParameters: {"pitientID": patientId},
+      queryParameters: {"patientId": patientId},
     );
     return json
         .decode(response.data)["Data"]

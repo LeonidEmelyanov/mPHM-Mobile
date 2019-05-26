@@ -1,8 +1,8 @@
 class DistinctDateModel {
-  final String oDate;
-  final int totalTimeSeconds;
+  final DateTime date;
+  final Duration total;
 
   DistinctDateModel.fromJson(Map<String, dynamic> json)
-      : oDate = json["ODate"],
-        totalTimeSeconds = json["TotalTimeSeconds"];
+      : date = DateTime.parse(json["ODate"]),
+        total = Duration(seconds: json["TotalTimeSeconds"]);
 }

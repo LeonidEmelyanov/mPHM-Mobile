@@ -4,24 +4,17 @@ import 'package:mphm_mobile/src/blocs/base_bloc.dart';
 import 'package:provider/provider.dart';
 
 class LoadingWidget<T> extends StatelessWidget {
-  final String title;
   final BaseBloc bloc;
-  final Widget Function(T item) getListTiles;
+  final Widget Function(T item) listTiles;
 
   const LoadingWidget({
     Key key,
-    this.title,
     this.bloc,
-    this.getListTiles,
+    this.listTiles,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: ChangeNotifierProvider.value(
+  Widget build(BuildContext context) => ChangeNotifierProvider.value(
         notifier: bloc,
         child: Stack(
           children: [
@@ -33,7 +26,7 @@ class LoadingWidget<T> extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: bloc.data?.length ?? 0,
                   itemBuilder: (context, index) =>
-                      getListTiles(bloc.data[index]),
+                      listTiles(bloc.data[index]),
                 ),
               ),
             ),
@@ -46,7 +39,5 @@ class LoadingWidget<T> extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
 }

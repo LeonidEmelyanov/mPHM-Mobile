@@ -9,14 +9,14 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _bloc = Provider.of<LoginBloc>(context);
+    final bloc = Provider.of<LoginBloc>(context);
 
     return ChangeNotifierProvider.value(
-      notifier: _bloc,
-      child: _bloc.data == null
+      notifier: bloc,
+      child: bloc.data == null
           ? LoginWidget()
           : ChangeNotifierProvider<PatientBloc>.value(
-              notifier: PatientBloc(_bloc.data.id),
+              notifier: PatientBloc(bloc.data.id),
               child: PatientsWidget(),
             ),
     );
