@@ -8,9 +8,12 @@ class PatientDistincDatesBloc extends BaseBloc<List<DistinctDateModel>> {
   PatientDistincDatesBloc(this.patient) {
     loading();
   }
-  
+
   @override
-  Future<List<DistinctDateModel>> getData(bool reload) {
-    return repository.getDistinctDates(patient.id, reload);
+  Future<List<DistinctDateModel>> getData(bool reload) async {
+    final response = await repository.getDistinctDates(patient.id, reload);
+    response.sort((left, right) => right.date.compareTo(left.date));
+    
+    return response;
   }
 }

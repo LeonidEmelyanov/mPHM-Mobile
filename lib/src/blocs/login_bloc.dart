@@ -16,6 +16,6 @@ class LoginBloc extends BaseBloc<DoctorModel> {
   }
 
   @override
-  Future<DoctorModel> getData(bool reload) async =>
+  Future<DoctorModel> getData(bool reload) =>
       repository.login(_login, _password);
 }
