@@ -32,7 +32,9 @@ class HolterPointDescriptionModel {
   HolterPointDescriptionModel.fromJson(Map<String, dynamic> json)
       : pointName = json["PointName"],
         count = json["Count"],
-        positions = json["Positions"];
+        positions = json["Positions"]
+            .map<PositionModel>((item) => PositionModel.fromJson(item))
+            .toList();
 }
 
 class DataModel {
@@ -48,7 +50,10 @@ class DataModel {
         minHr = json["MinHR"],
         hR = json["HR"],
         maxHr = json["MaxHR"],
-        holterPointDescriptions = json["HolterPointDescriptions"],
+        holterPointDescriptions = json["HolterPointDescriptions"]
+            .map<HolterPointDescriptionModel>(
+                (item) => HolterPointDescriptionModel.fromJson(item))
+            .toList(),
         hourString = json["HourString"];
 }
 
@@ -58,7 +63,10 @@ class HolterTableModel {
   final HistogramModel tachycardiasHistogram;
 
   HolterTableModel.fromJson(Map<String, dynamic> json)
-      : data = json["Data"],
-        pausesHistogram = json["PausesHistogram"],
-        tachycardiasHistogram = json["TachycardiasHistogram"];
+      : data = json["Data"]
+            .map<DataModel>((item) => DataModel.fromJson(item))
+            .toList(),
+        pausesHistogram = HistogramModel.fromJson(json["PausesHistogram"]),
+        tachycardiasHistogram =
+            HistogramModel.fromJson(json["TachycardiasHistogram"]);
 }

@@ -7,12 +7,7 @@ class PatientDatasBloc extends BaseBloc<List<DataInfoModel>> {
 
   PatientDatasBloc(this._date, this._patientId);
 
-  void load([bool reload = false]) async {
-    try {
-      isLoading = !reload;
-      data = await repository.getDatasByDate(_date, _patientId, reload);
-    } catch (e) {
-      error = e;
-    }
-  }
+  @override
+  Future<List<DataInfoModel>> getData(bool reload) =>
+      repository.getDatasByDate(_date, _patientId, reload);
 }

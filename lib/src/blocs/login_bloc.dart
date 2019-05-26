@@ -15,15 +15,7 @@ class LoginBloc extends BaseBloc<DoctorModel> {
     error = null;
   }
 
-  void doLogin() async {
-    try {
-      isLoading = true;
-      data = await repository.login(_login, _password);
-
-      _login = null;
-      _password = null;
-    } catch (e) {
-      error = e;
-    }
-  }
+  @override
+  Future<DoctorModel> getData(bool reload) async =>
+      repository.login(_login, _password);
 }

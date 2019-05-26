@@ -7,16 +7,10 @@ class PatientBloc extends BaseBloc<List<PatientModel>> {
   final int _doctorId;
 
   PatientBloc(this._doctorId) {
-    getPatients();
+    loading();
   }
 
-  Future<void> getPatients([bool reload = false]) async {
-    try {
-      isLoading = !reload;
-
-      data = await repository.getPatients(_doctorId, reload);
-    } catch (e) {
-      error = e;
-    }
-  }
+  @override
+  Future<List<PatientModel>> getData(bool reload) =>
+      repository.getPatients(_doctorId, reload);
 }

@@ -45,7 +45,7 @@ class LoginWidget extends StatelessWidget {
                   enabled: _bloc.hasError || !_bloc.isLoading,
                   focusNode: _passwordFocusNode,
                   onChanged: (password) => _bloc.password = password,
-                  onSubmitted: (_) async => _bloc.doLogin(),
+                  onSubmitted: (_) async => _bloc.loading(),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
@@ -74,7 +74,7 @@ class LoginWidget extends StatelessWidget {
                       onPressed: _bloc.hasError || _bloc.isLoading
                           ? null
                           : () async =>
-                              Provider.of<LoginBloc>(context).doLogin(),
+                              Provider.of<LoginBloc>(context).loading(),
                     ),
                   ),
                 ),

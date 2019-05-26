@@ -3,7 +3,7 @@ import 'package:mphm_mobile/src/data/main_repository.dart';
 
 import '../app.dart';
 
-class BaseBloc<T> extends ChangeNotifier {
+abstract class BaseBloc<T> extends ChangeNotifier {
   final repository = App.getIt.get<MainRepository>();
 
   var _isLoading = false;
@@ -43,4 +43,15 @@ class BaseBloc<T> extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> loading([bool reload = false]) async {
+    try {
+      isLoading = !reload;
+      data = await getData(reload);
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  Future<T> getData(bool reload);
 }
