@@ -8,17 +8,13 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final bloc = Provider.of<LoginBloc>(context);
-
-    return ChangeNotifierProvider.value(
-      notifier: bloc,
-      child: bloc.data == null
-          ? LoginWidget()
-          : ChangeNotifierProvider<PatientBloc>.value(
-              notifier: PatientBloc(bloc.data.id),
-              child: PatientsWidget(),
-            ),
-    );
-  }
+  Widget build(BuildContext context) => Consumer<LoginBloc>(
+        builder: (BuildContext context, LoginBloc bloc, Widget child) =>
+            bloc.data == null
+                ? LoginWidget()
+                : ChangeNotifierProvider<PatientBloc>.value(
+                    notifier: PatientBloc(bloc.data.id),
+                    child: PatientsWidget(),
+                  ),
+      );
 }

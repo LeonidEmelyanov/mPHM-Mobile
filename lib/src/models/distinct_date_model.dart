@@ -4,10 +4,10 @@ class DistinctDateModel {
 
   get length {
     var s = total.toString();
-    return s.substring(0, s.indexOf('.') - 1);
+    return s.substring(0, s.indexOf('.'));
   }
 
   DistinctDateModel.fromJson(Map<String, dynamic> json)
-      : date = DateTime.parse(json["ODate"]),
+      : date = DateTime.parse("${json["ODate"]}Z"),
         total = Duration(seconds: json["TotalTimeSeconds"]);
 }

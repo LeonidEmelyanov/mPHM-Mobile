@@ -13,8 +13,7 @@ class PatientsWidget extends StatelessWidget {
         appBar: AppBar(
           title: Text("Patients"),
         ),
-        body: LoadingWidget<PatientModel>(
-          bloc: Provider.of<PatientBloc>(context),
+        body: LoadingWidget<PatientBloc, PatientModel>(
           tilesBuilder: (patient) => ListTile(
                 leading: Icon(
                   Icons.account_circle,
