@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Repository {
+class BaseRepository {
   final _cash = Map<String, dynamic>();
 
   @protected

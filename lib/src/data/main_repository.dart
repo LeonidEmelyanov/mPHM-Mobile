@@ -1,5 +1,5 @@
 import 'package:mphm_mobile/src/api/main_api.dart';
-import 'package:mphm_mobile/src/data/repository.dart';
+import 'package:mphm_mobile/src/data/base_repository.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 import 'package:mphm_mobile/src/models/data_info_model.dart';
 import 'package:mphm_mobile/src/models/day_info_model.dart';
@@ -8,7 +8,7 @@ import 'package:mphm_mobile/src/models/doctor_model.dart';
 import 'package:mphm_mobile/src/models/holter_table_model.dart';
 import 'package:mphm_mobile/src/models/patient_model.dart';
 
-class MainRepository extends Repository {
+class MainRepository extends BaseRepository {
   final _api = MainApi();
 
   Future<DoctorModel> login(String login, String password) async =>

@@ -15,13 +15,12 @@ class PatientsWidget extends StatelessWidget {
         ),
         body: LoadingWidget<PatientModel>(
           bloc: Provider.of<PatientBloc>(context),
-          listTiles: (patient) => ListTile(
+          tilesBuilder: (patient) => ListTile(
                 leading: Icon(
                   Icons.account_circle,
                   size: 40,
                 ),
-                title: Text(
-                    "${patient.surname} ${patient.name} ${patient.lastname}"),
+                title: Text(patient.fullName),
                 subtitle: Text("Age: ${patient.age.toString()}"),
                 onTap: () => Navigator.push(
                       context,

@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 
 class LoadingWidget<T> extends StatelessWidget {
   final BaseBloc bloc;
-  final Widget Function(T item) listTiles;
+  final Widget Function(T item) tilesBuilder;
 
   const LoadingWidget({
     Key key,
     this.bloc,
-    this.listTiles,
+    this.tilesBuilder,
   }) : super(key: key);
 
   @override
@@ -22,11 +22,10 @@ class LoadingWidget<T> extends StatelessWidget {
               opacity: bloc.isLoading ?? false ? 0 : 1,
               duration: Duration(milliseconds: 300),
               child: RefreshIndicator(
-                onRefresh: () => bloc.loading(true),
+                onRefresh: () => bloc.loading(reload: true, showLoading: false),
                 child: ListView.builder(
                   itemCount: bloc.data?.length ?? 0,
-                  itemBuilder: (context, index) =>
-                      listTiles(bloc.data[index]),
+                  itemBuilder: (_, index) => tilesBuilder(bloc.data[index]),
                 ),
               ),
             ),

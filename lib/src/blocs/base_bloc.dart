@@ -44,9 +44,9 @@ abstract class BaseBloc<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loading([bool reload = false]) async {
+  Future<void> loading({bool reload = false, bool showLoading = true}) async {
     try {
-      isLoading = !reload;
+      isLoading = showLoading;
       data = await getData(reload);
     } catch (e) {
       error = e;

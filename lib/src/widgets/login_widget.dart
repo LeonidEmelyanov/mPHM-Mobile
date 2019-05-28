@@ -9,14 +9,14 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = Provider.of<LoginBloc>(context);
+    final bloc = Provider.of<LoginBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("mPHM mobile"),
       ),
       body: ChangeNotifierProvider.value(
-        notifier: _bloc,
+        notifier: bloc,
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
@@ -30,8 +30,8 @@ class LoginWidget extends StatelessWidget {
                   ),
                   autocorrect: false,
                   textInputAction: TextInputAction.next,
-                  enabled: _bloc.hasError || !_bloc.isLoading,
-                  onChanged: (login) => _bloc.login = login,
+                  enabled: bloc.hasError || !bloc.isLoading,
+                  onChanged: (login) => bloc.login = login,
                   onSubmitted: (_) =>
                       FocusScope.of(context).requestFocus(_passwordFocusNode),
                 ),
@@ -42,17 +42,17 @@ class LoginWidget extends StatelessWidget {
                   ),
                   obscureText: true,
                   autocorrect: false,
-                  enabled: _bloc.hasError || !_bloc.isLoading,
+                  enabled: bloc.hasError || !bloc.isLoading,
                   focusNode: _passwordFocusNode,
-                  onChanged: (password) => _bloc.password = password,
-                  onSubmitted: (_) async => _bloc.loading(),
+                  onChanged: (password) => bloc.password = password,
+                  onSubmitted: (_) async => bloc.loading(),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: SizedBox(
                     width: double.infinity,
                     child: FlatButton(
-                      child: _bloc.isLoading
+                      child: bloc.isLoading
                           ? Shimmer.fromColors(
                               baseColor: Colors.white,
                               highlightColor: Theme.of(context).accentColor,
@@ -62,16 +62,16 @@ class LoginWidget extends StatelessWidget {
                               ),
                             )
                           : Text(
-                              _bloc.hasError
+                              bloc.hasError
                                   ? "Invalide login/Password"
                                   : "Login",
                               style: TextStyle(color: Colors.white),
                             ),
                       color: Theme.of(context).accentColor,
-                      disabledColor: _bloc.hasError
+                      disabledColor: bloc.hasError
                           ? Theme.of(context).errorColor
                           : Theme.of(context).accentColor,
-                      onPressed: _bloc.hasError || _bloc.isLoading
+                      onPressed: bloc.hasError || bloc.isLoading
                           ? null
                           : () async =>
                               Provider.of<LoginBloc>(context).loading(),

@@ -1,8 +1,8 @@
 import 'package:mphm_mobile/src/blocs/base_bloc.dart';
-import 'package:mphm_mobile/src/models/distinct_date_model.dart';
+import 'package:mphm_mobile/src/blocs/distinct_date_info_bloc.dart';
 import 'package:mphm_mobile/src/models/patient_model.dart';
 
-class PatientDistincDatesBloc extends BaseBloc<List<DistinctDateModel>> {
+class PatientDistincDatesBloc extends BaseBloc<List<DistinctDateBloc>> {
   final PatientModel patient;
 
   PatientDistincDatesBloc(this.patient) {
@@ -10,7 +10,9 @@ class PatientDistincDatesBloc extends BaseBloc<List<DistinctDateModel>> {
   }
 
   @override
-  Future<List<DistinctDateModel>> getData(bool reload) async =>
-      await repository.getDistinctDates(patient.id, reload)
-        ..sort((left, right) => right.date.compareTo(left.date));
+  Future<List<DistinctDateBloc>> getData(bool reload) async => (await repository
+          .getDistinctDates(patient.id, reload))
+      .map<DistinctDateBloc>((model) => DistinctDateBloc(patient, model))
+      .toList()
+        ..sort((left, right) => right.model.date.compareTo(left.model.date));
 }
