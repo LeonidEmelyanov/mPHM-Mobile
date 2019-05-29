@@ -20,7 +20,9 @@ class ChartDataFragmentModel {
   final bool hasNextData;
 
   ChartDataFragmentModel.json(Map<String, dynamic> json)
-      : dataByLeads = json["DataByLeads"].map<DataByLeadModel>((item) => DataByLeadModel.fromJson(item)).toList(),
+      : dataByLeads = json["DataByLeads"]
+            .map<DataByLeadModel>((item) => DataByLeadModel.fromJson(item))
+            .toList(),
         maxFragments = json["MaxFragments"],
         qtyLeads = json["QtyLeads"],
         nextDataId = json["NextDataId"],
@@ -28,4 +30,16 @@ class ChartDataFragmentModel {
         nextStartPoint = json["NextStartPoint"],
         prevStartPoint = json["PrevStartPoint"],
         hasNextData = json["HasNextData"];
+}
+
+enum Leads {
+  All,
+  I,
+  II,
+  V1,
+  V2,
+  V3,
+  V4,
+  V5,
+  V6,
 }

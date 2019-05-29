@@ -5,6 +5,7 @@ import 'package:mphm_mobile/src/models/data_info_model.dart';
 import 'package:mphm_mobile/src/models/day_info_model.dart';
 import 'package:mphm_mobile/src/models/distinct_date_model.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
+import 'package:mphm_mobile/src/models/ecg_summary.dart';
 import 'package:mphm_mobile/src/models/holter_table_model.dart';
 import 'package:mphm_mobile/src/models/patient_model.dart';
 
@@ -95,6 +96,14 @@ class MainApi {
       "screenWidthMm": screenWidthMm,
     });
     return ChartDataFragmentModel.json(json.decode(response.data));
+  }
+
+  Future<EcgSummary> getEcgSummary(int dataId) async {
+    final respose = await _dio.post(
+      "data/GetEcgSummary",
+      queryParameters: {"dataId": dataId},
+    );
+    return EcgSummary.fromJson(json.decode(respose.data));
   }
 
   Future<List<PatientModel>> getPatientsByDoctor(int doctorId) async {

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:mphm_mobile/src/blocs/charts_bloc.dart';
 import 'package:mphm_mobile/src/blocs/distinct_date_info_bloc.dart';
 import 'package:mphm_mobile/src/blocs/patient_distinct_dates_bloc.dart';
+import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 import 'package:mphm_mobile/src/models/data_info_model.dart';
+import 'package:mphm_mobile/src/ui/charts_page.dart';
 import 'package:mphm_mobile/src/widgets/base_loading_widget.dart';
 import 'package:provider/provider.dart';
 
-class DistinctDatesWidget extends StatelessWidget {
+class DistinctDatesPage extends StatelessWidget {
   final _dateFormat = DateFormat("dd.MM.yyyy");
   final _timeFormat = DateFormat("HH:mm:ss");
   final _controller = PageController();
@@ -30,7 +33,7 @@ class DistinctDatesWidget extends StatelessWidget {
               itemCount: bloc.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 final dataBloc = bloc.data[index];
-                
+
                 if (dataBloc.data == null) {
                   dataBloc.loading();
                 }
@@ -74,6 +77,19 @@ class DistinctDatesWidget extends StatelessWidget {
                                 title: Text(
                                     "Statred at ${_timeFormat.format(info.serverTime)}"),
                                 subtitle: Text("Total length: ${info.length}"),
+                                onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ChangeNotifierProvider.value(
+                                              notifier: ChartsBloc(
+                                                  patient: bloc.patient,
+                                                  lead: Leads.All,
+                                                  dataId: info.id),
+                                              child: ChartsPage(),
+                                            ),
+                                      ),
+                                    ),
                               ),
                         ),
                       ),

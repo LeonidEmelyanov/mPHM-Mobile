@@ -6,8 +6,8 @@ import '../app.dart';
 abstract class BaseBloc<T> extends ChangeNotifier {
   final repository = App.getIt.get<MainRepository>();
 
-  bool _isLoading = false;
-  Exception _error;
+  var _isLoading = false;
+  var _error;
   T _data;
 
   get isLoading => _isLoading ?? false;

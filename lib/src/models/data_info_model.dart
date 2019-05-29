@@ -1,7 +1,5 @@
 class DataInfoModel {
-  final int age;
   final int id;
-  final String patient;
   final DateTime serverTime;
   final Duration timeSeconds;
 
@@ -11,9 +9,7 @@ class DataInfoModel {
   }
 
   DataInfoModel.fromJson(Map<String, dynamic> json)
-      : age = json["Age"],
-        id = json["Id"],
-        patient = json["Patient"],
+      : id = json["Id"],
         serverTime = DateTime.parse("${json["ServerTime"]}Z"),
         timeSeconds = Duration(seconds: json["TimeSeconds"]);
 }

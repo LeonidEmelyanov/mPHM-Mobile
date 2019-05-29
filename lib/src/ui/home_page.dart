@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/blocs/login_bloc.dart';
 import 'package:mphm_mobile/src/blocs/patient_bloc.dart';
-import 'package:mphm_mobile/src/widgets/login_widget.dart';
-import 'package:mphm_mobile/src/widgets/patients_widget.dart';
+import 'package:mphm_mobile/src/ui/login_widget.dart';
+import 'package:mphm_mobile/src/ui/patients_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,10 +11,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<LoginBloc>(
         builder: (BuildContext context, LoginBloc bloc, Widget child) =>
             bloc.data == null
-                ? LoginWidget()
+                ? LoginPage()
                 : ChangeNotifierProvider<PatientBloc>.value(
-                    notifier: PatientBloc(bloc.data.id),
-                    child: PatientsWidget(),
+                    notifier: PatientBloc(doctorId: bloc.data.id),
+                    child: PatientsPage(),
                   ),
       );
 }

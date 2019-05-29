@@ -5,6 +5,7 @@ import 'package:mphm_mobile/src/models/data_info_model.dart';
 import 'package:mphm_mobile/src/models/day_info_model.dart';
 import 'package:mphm_mobile/src/models/distinct_date_model.dart';
 import 'package:mphm_mobile/src/models/doctor_model.dart';
+import 'package:mphm_mobile/src/models/ecg_summary.dart';
 import 'package:mphm_mobile/src/models/holter_table_model.dart';
 import 'package:mphm_mobile/src/models/patient_model.dart';
 
@@ -74,6 +75,11 @@ class MainRepository extends BaseRepository {
                 initPoint,
                 screenWidthMm,
               ));
+
+  Future<EcgSummary> getEcgSummary(
+          int patientId, int dataId, bool reload) async =>
+      getData("patients/$patientId/ecg/$dataId", reload,
+          () => _api.getEcgSummary(dataId));
 
   Future<List<PatientModel>> getPatientsByDoctor(
           int doctorId, bool reload) async =>

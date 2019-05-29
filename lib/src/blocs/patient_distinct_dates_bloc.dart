@@ -12,7 +12,8 @@ class PatientDistincDatesBloc extends BaseBloc<List<DistinctDateBloc>> {
   @override
   Future<List<DistinctDateBloc>> getData(bool reload) async => (await repository
           .getDistinctDates(patient.id, reload))
-      .map<DistinctDateBloc>((model) => DistinctDateBloc(patient, model))
+      .map<DistinctDateBloc>(
+          (model) => DistinctDateBloc(patient: patient, model: model))
       .toList()
         ..sort((left, right) => right.model.date.compareTo(left.model.date));
 }

@@ -4,7 +4,7 @@ import 'package:mphm_mobile/src/blocs/login_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class LoginWidget extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final _passwordFocusNode = FocusNode();
 
   @override
