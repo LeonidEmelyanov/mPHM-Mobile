@@ -27,12 +27,16 @@ class DistinctDatesWidget extends StatelessWidget {
             body: PageView.builder(
               controller: _controller,
               reverse: true,
-              onPageChanged: (index) => bloc.data[index].loading(),
               itemCount: bloc.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
-                bloc.data[index].loading();
+                final dataBloc = bloc.data[index];
+                
+                if (dataBloc.data == null) {
+                  dataBloc.loading();
+                }
+
                 return ChangeNotifierProvider<DistinctDateBloc>.value(
-                  notifier: bloc.data[index],
+                  notifier: dataBloc,
                   child: Column(
                     children: [
                       Padding(
@@ -49,7 +53,7 @@ class DistinctDatesWidget extends StatelessWidget {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  "${_dateFormat.format(bloc.data[index].model.date)}",
+                                  "${_dateFormat.format(dataBloc.model.date)}",
                                   textScaleFactor: 1.5,
                                 ),
                               ),
