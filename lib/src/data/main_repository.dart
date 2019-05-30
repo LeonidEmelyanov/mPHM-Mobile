@@ -58,23 +58,18 @@ class MainRepository extends BaseRepository {
       );
 
   Future<ChartDataFragmentModel> getChartDataFragment(
-    String selectedLead,
+    patientId,
     int dataId,
-    int fragmentId,
-    int initPoint,
-    int screenWidthMm,
+    String selectedLead,
+    int startPoint,
+    int qtyPoint,
     bool reload,
   ) async =>
       getData(
-          "chart_data_fragment/$selectedLead/$dataId/$fragmentId/$initPoint",
+          "patients/$patientId/ecg/$dataId/$startPoint",
           reload,
-          () => _api.getChartDataFragment(
-                selectedLead,
-                dataId,
-                fragmentId,
-                initPoint,
-                screenWidthMm,
-              ));
+          () =>
+              _api.getDataFragment(dataId, selectedLead, startPoint, qtyPoint));
 
   Future<EcgSummary> getEcgSummary(
           int patientId, int dataId, bool reload) async =>

@@ -80,20 +80,13 @@ class MainApi {
     return HolterTableModel.fromJson(json.decode(response.data));
   }
 
-  Future<ChartDataFragmentModel> getChartDataFragment(
-    String selectedLead,
-    int dataId,
-    int fragmentId,
-    int initPoint,
-    int screenWidthMm,
-  ) async {
-    final response =
-        await _dio.post("data/GetDataFragmentWithMaxPoints", queryParameters: {
-      "selectedLead": selectedLead,
+  Future<ChartDataFragmentModel> getDataFragment(
+      int dataId, String selectedLead, int startPoint, int qtyPoints) async {
+    final response = await _dio.post("data/GetDataFragment", queryParameters: {
       "dataId": dataId,
-      "fragmentId": fragmentId,
-      "initPoint": initPoint,
-      "screenWidthMm": screenWidthMm,
+      "selectedLead": selectedLead,
+      "startPoint": startPoint,
+      "qtyPoints": qtyPoints,
     });
     return ChartDataFragmentModel.json(json.decode(response.data));
   }
