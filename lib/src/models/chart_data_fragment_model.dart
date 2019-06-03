@@ -32,6 +32,13 @@ class ChartDataFragmentModel {
         hasNextData = json["HasNextData"];
 }
 
+class ChartData {
+  final double seconds;
+  final double value;
+
+  ChartData(this.seconds, this.value);
+}
+
 enum Leads {
   All,
   I,

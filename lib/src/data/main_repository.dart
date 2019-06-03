@@ -62,14 +62,14 @@ class MainRepository extends BaseRepository {
     int dataId,
     String selectedLead,
     int startPoint,
-    int qtyPoint,
+    int qtyPoints,
     bool reload,
   ) async =>
       getData(
           "patients/$patientId/ecg/$dataId/$startPoint",
           reload,
           () =>
-              _api.getDataFragment(dataId, selectedLead, startPoint, qtyPoint));
+              _api.getDataFragment(dataId, selectedLead, startPoint, qtyPoints));
 
   Future<EcgSummary> getEcgSummary(
           int patientId, int dataId, bool reload) async =>

@@ -4,12 +4,12 @@ import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 import 'package:mphm_mobile/src/models/ecg_summary.dart';
 import 'package:mphm_mobile/src/models/patient_model.dart';
 
-class ChartsBloc extends BaseBloc<EcgSummary> {
+class PatientEcgBloc extends BaseBloc<EcgSummary> {
   final Leads lead;
   final PatientModel patient;
   final int dataId;
 
-  ChartsBloc({
+  PatientEcgBloc({
     @required this.lead,
     @required this.patient,
     @required this.dataId,

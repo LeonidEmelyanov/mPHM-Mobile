@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:mphm_mobile/src/blocs/charts_bloc.dart';
 import 'package:mphm_mobile/src/blocs/distinct_date_info_bloc.dart';
 import 'package:mphm_mobile/src/blocs/patient_distinct_dates_bloc.dart';
+import 'package:mphm_mobile/src/blocs/patient_ecg_bloc.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 import 'package:mphm_mobile/src/models/data_info_model.dart';
 import 'package:mphm_mobile/src/ui/charts_page.dart';
@@ -82,7 +82,7 @@ class DistinctDatesPage extends StatelessWidget {
                                       MaterialPageRoute(
                                         builder: (_) =>
                                             ChangeNotifierProvider.value(
-                                              notifier: ChartsBloc(
+                                              notifier: PatientEcgBloc(
                                                   patient: bloc.patient,
                                                   lead: Leads.All,
                                                   dataId: info.id),
