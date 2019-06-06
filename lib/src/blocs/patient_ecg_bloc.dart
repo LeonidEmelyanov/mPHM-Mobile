@@ -7,11 +7,13 @@ import 'package:mphm_mobile/src/models/patient_model.dart';
 class PatientEcgBloc extends BaseBloc<EcgSummary> {
   final Leads lead;
   final PatientModel patient;
+  final int date;
   final int dataId;
 
   PatientEcgBloc({
     @required this.lead,
     @required this.patient,
+    @required this.date,
     @required this.dataId,
   }) {
     loading();
@@ -19,5 +21,5 @@ class PatientEcgBloc extends BaseBloc<EcgSummary> {
 
   @override
   Future<EcgSummary> getData(bool reload) =>
-      repository.getEcgSummary(patient.id, dataId, reload);
+      repository.getEcgSummary(patient.id, date, dataId, reload);
 }

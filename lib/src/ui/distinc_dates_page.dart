@@ -84,6 +84,10 @@ class DistinctDatesPage extends StatelessWidget {
                                             ChangeNotifierProvider.value(
                                               notifier: PatientEcgBloc(
                                                   patient: bloc.patient,
+                                                  date: (dataBloc.model.date
+                                                              .millisecondsSinceEpoch /
+                                                          1000)
+                                                      .round(),
                                                   lead: Leads.All,
                                                   dataId: info.id),
                                               child: ChartsPage(),

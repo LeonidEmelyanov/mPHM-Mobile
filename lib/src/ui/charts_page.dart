@@ -12,7 +12,8 @@ class ChartsPage extends StatelessWidget {
     final size = MediaQuery.of(context).size.width /
         MediaQuery.of(context).devicePixelRatio *
         2.54 *
-        10;
+        10 /
+        1000;
 
     return Consumer<PatientEcgBloc>(
       builder: (BuildContext _, PatientEcgBloc bloc, Widget __) => Scaffold(
@@ -28,6 +29,7 @@ class ChartsPage extends StatelessWidget {
                         ChangeNotifierProvider.value(
                           notifier: ChartsFragmentBloc(
                               patientId: bloc.patient.id,
+                              date: bloc.date,
                               dataId: bloc.dataId,
                               selectedLead: "All",
                               qtyPoints: _getQtyPoints(size, bloc.data),

@@ -49,16 +49,14 @@ class MainRepository extends BaseRepository {
         () => _api.getDatasByDate(date, patientId),
       );
 
-  Future<HolterTableModel> getHolterTableByDay(
-          int unixDate, bool reload) async =>
-      getData(
-        "holter_table/$unixDate",
-        reload,
-        () => _api.getHolterTableByDay(unixDate),
-      );
+  Future<EcgSummary> getEcgSummary(
+          int patientId, int date, int dataId, bool reload) async =>
+      getData("patients/$patientId/dates/$date/ecg/$dataId", reload,
+          () => _api.getEcgSummary(dataId));
 
   Future<ChartDataFragmentModel> getChartDataFragment(
-    patientId,
+    int patientId,
+    int date,
     int dataId,
     String selectedLead,
     int startPoint,
@@ -66,15 +64,18 @@ class MainRepository extends BaseRepository {
     bool reload,
   ) async =>
       getData(
-          "patients/$patientId/ecg/$dataId/$startPoint",
+          "patients/$patientId/dates/$date/ecg/$dataId/$startPoint",
           reload,
-          () =>
-              _api.getDataFragment(dataId, selectedLead, startPoint, qtyPoints));
+          () => _api.getDataFragment(
+              dataId, selectedLead, startPoint, qtyPoints));
 
-  Future<EcgSummary> getEcgSummary(
-          int patientId, int dataId, bool reload) async =>
-      getData("patients/$patientId/ecg/$dataId", reload,
-          () => _api.getEcgSummary(dataId));
+  Future<HolterTableModel> getHolterTableByDay(
+          int unixDate, bool reload) async =>
+      getData(
+        "holter_table/$unixDate",
+        reload,
+        () => _api.getHolterTableByDay(unixDate),
+      );
 
   Future<List<PatientModel>> getPatientsByDoctor(
           int doctorId, bool reload) async =>

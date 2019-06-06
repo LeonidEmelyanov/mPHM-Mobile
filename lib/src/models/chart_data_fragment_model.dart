@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class DataByLeadModel {
   final int initPoint;
   final String leadName;
@@ -30,6 +32,13 @@ class ChartDataFragmentModel {
         nextStartPoint = json["NextStartPoint"],
         prevStartPoint = json["PrevStartPoint"],
         hasNextData = json["HasNextData"];
+}
+
+class ChartsData {
+  final String id;
+  final List<ChartData> chartData;
+
+  ChartsData({@required this.id, @required this.chartData});
 }
 
 class ChartData {

@@ -8,10 +8,22 @@ import 'package:charts_flutter/flutter.dart' as charts;
 class ChartsFragmentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-      LoadingWidget<ChartsFragmentBloc, Map<String, List<ChartData>>>(
-        tilesBuilder: (item) => charts.LineChart(item.entries
-            .map<charts.Series<double, double>>(
-                (data) => charts.Series<double, double>())
-            .toList()),
+      LoadingWidget<ChartsFragmentBloc, ChartsData>(
+        tilesBuilder: (item) => SizedBox(
+              child: charts.LineChart(
+                <charts.Series<ChartData, double>>[
+                  charts.Series<ChartData, double>(
+                    id: item.id,
+                    data: item.chartData,
+                    colorFn: (_, __) =>
+                        charts.MaterialPalette.blue.shadeDefault,
+                    domainFn: (ChartData value, _) => value.seconds,
+                    measureFn: (ChartData value, _) => value.value,
+                  )
+                ],
+              ),
+              width: double.infinity,
+              height: 128,
+            ),
       );
 }
