@@ -19,8 +19,21 @@ class ChartsFragmentWidget extends StatelessWidget {
                         charts.MaterialPalette.blue.shadeDefault,
                     domainFn: (ChartData value, _) => value.seconds,
                     measureFn: (ChartData value, _) => value.value,
-                  )
+                  ),
                 ],
+                primaryMeasureAxis: charts.NumericAxisSpec(
+                  showAxisLine: false,
+                  tickProviderSpec:
+                      charts.BasicNumericTickProviderSpec(zeroBound: false),
+                ),
+                domainAxis: charts.NumericAxisSpec(
+                  showAxisLine: false,
+                  tickProviderSpec:
+                      charts.BasicNumericTickProviderSpec(zeroBound: false),
+                ),
+                animate: false,
+                defaultInteractions: false,
+                flipVerticalAxis: true,
               ),
               width: double.infinity,
               height: 128,

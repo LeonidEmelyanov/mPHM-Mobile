@@ -54,7 +54,7 @@ class ChartsFragmentBloc extends BaseBloc<List<ChartsData>> {
         (buffer.lengthInBytes / 4).round(),
         (offset) => ChartData(
               (startPoint + offset) / frequency,
-              ByteData.view(buffer).getFloat32(offset * 4, Endian.little),
+              (ByteData.view(buffer).getFloat32(offset * 4, Endian.little)),
             ));
   }
 }
