@@ -9,41 +9,40 @@ import 'package:provider/provider.dart';
 class ChartsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width /
-        MediaQuery.of(context).devicePixelRatio *
-        2.54 *
-        10 /
-        1000;
+    final width = (MediaQuery.of(context).size.width - 32) / 150 * 2.54;
 
     return Consumer<PatientEcgBloc>(
-      builder: (BuildContext _, PatientEcgBloc bloc, Widget __) => Scaffold(
-            appBar: AppBar(
-              title: Text("Cardiogram of ${bloc.patient.shortName}"),
-            ),
-            body: bloc.isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : PageView.builder(
-                    itemBuilder: (BuildContext _, int index) =>
-                        ChangeNotifierProvider.value(
-                          notifier: ChartsFragmentBloc(
-                              patientId: bloc.patient.id,
-                              date: bloc.date,
-                              dataId: bloc.dataId,
-                              selectedLead: "All",
-                              qtyPoints: _getQtyPoints(size, bloc.data),
-                              startPoint:
-                                  index * _getQtyPoints(size, bloc.data),
-                              frequency: bloc.data.frequency),
-                          child: ChartsFragmentWidget(),
-                        ),
-                    itemCount: bloc.data?.qtyPoints ?? 0,
-                  ),
+      builder: (BuildContext _, PatientEcgBloc bloc, Widget __) {
+        final qtyPoints = _getQtyPoints(width, bloc.data);
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Cardiogram of ${bloc.patient.shortName}"),
           ),
+          body: bloc.isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : PageView.builder(
+                  itemBuilder: (BuildContext _, int index) =>
+                      ChangeNotifierProvider.value(
+                        notifier: ChartsFragmentBloc(
+                            patientId: bloc.patient.id,
+                            date: bloc.date,
+                            dataId: bloc.dataId,
+                            selectedLead: "All",
+                            qtyPoints: qtyPoints,
+                            startPoint: index * qtyPoints,
+                            frequency: bloc.data.frequency),
+                        child: ChartsFragmentWidget(),
+                      ),
+                  itemCount: ((bloc.data?.qtyPoints ?? 0) / qtyPoints).round(),
+                ),
+        );
+      },
     );
   }
 
-  int _getQtyPoints(double size, EcgSummary summary) =>
-      (size * summary.frequency).round();
+  int _getQtyPoints(double width, EcgSummary summary) =>
+      (width * (summary?.frequency ?? 0)).round();
 }

@@ -28,5 +28,6 @@ class App extends StatelessWidget {
           notifier: LoginBloc(),
           child: HomePage(),
         ),
+        debugShowCheckedModeBanner: false,
       );
 }
