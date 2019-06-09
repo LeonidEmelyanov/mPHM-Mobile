@@ -22,7 +22,8 @@ class EcgPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawPath(_generatePath(size), _chartPaint);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), _boxPaint);
-    _idPainter.paint(canvas, Offset(size.width - 16, size.height - 16));
+    _idPainter.paint(
+        canvas, Offset(size.width - _idPainter.width - 4, size.height - 16));
   }
 
   @override
@@ -40,8 +41,14 @@ class EcgPainter extends CustomPainter {
 
     _idPainter = TextPainter()
       ..text = TextSpan(
-          text: _chartsData.id, style: new TextStyle(color: Colors.blue))
-      ..textDirection = TextDirection.ltr;
+          text: _chartsData.id,
+          style: new TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ))
+      ..textDirection = TextDirection.ltr
+      ..textAlign = TextAlign.center
+      ..layout();
   }
 
   void _findBounds() {

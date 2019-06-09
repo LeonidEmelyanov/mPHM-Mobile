@@ -45,7 +45,8 @@ class ChartsFragmentBloc extends BaseBloc<List<ChartsData>> {
                 id: data.leadName,
                 chartData: _parse(data.base64ByteData),
               ))
-          .toList();
+          .toList()
+            ..sort((left, right) => left.id.compareTo(right.id));
 
   List<ChartData> _parse(String base64ByteData) {
     final buffer = Int8List.fromList(base64.decode(base64ByteData)).buffer;
