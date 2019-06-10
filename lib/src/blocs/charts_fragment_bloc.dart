@@ -14,6 +14,9 @@ class ChartsFragmentBloc extends BaseBloc<List<ChartsData>> {
   final int qtyPoints;
   final int frequency;
 
+  var _min = double.infinity;
+  var _max = double.negativeInfinity;
+
   ChartsFragmentBloc({
     @required this.patientId,
     @required this.date,
@@ -44,6 +47,8 @@ class ChartsFragmentBloc extends BaseBloc<List<ChartsData>> {
           .map<ChartsData>((data) => ChartsData(
                 id: data.leadName,
                 chartData: _parse(data.base64ByteData),
+                min: _min,
+                max: _max,
               ))
           .toList()
             ..sort((left, right) => left.id.compareTo(right.id));
@@ -51,11 +56,20 @@ class ChartsFragmentBloc extends BaseBloc<List<ChartsData>> {
   List<ChartData> _parse(String base64ByteData) {
     final buffer = Int8List.fromList(base64.decode(base64ByteData)).buffer;
 
-    return List.generate(
-        (buffer.lengthInBytes / 4).round(),
-        (offset) => ChartData(
-              (startPoint + offset) / frequency,
-              (ByteData.view(buffer).getFloat32(offset * 4, Endian.little)),
-            ));
+    return List.generate((buffer.lengthInBytes / 4).round(), (offset) {
+      final value = ByteData.view(buffer).getFloat32(offset * 4, Endian.little);
+
+      if (value > _max) {
+        _max = value;
+      }
+      if (value < _min) {
+        _min = value;
+      }
+
+      return ChartData(
+        (startPoint + offset) / frequency,
+        value,
+      );
+    });
   }
 }

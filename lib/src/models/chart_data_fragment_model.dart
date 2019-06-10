@@ -37,8 +37,15 @@ class ChartDataFragmentModel {
 class ChartsData {
   final String id;
   final List<ChartData> chartData;
+  final min;
+  final max;
 
-  ChartsData({@required this.id, @required this.chartData});
+  ChartsData({
+    @required this.id,
+    @required this.chartData,
+    @required this.min,
+    @required this.max,
+  });
 }
 
 class ChartData {

@@ -11,34 +11,17 @@ class EcgPainter extends CustomPainter {
   Paint _gridPaint;
   TextPainter _idPainter;
 
-  var _max = double.negativeInfinity;
-  var _min = double.infinity;
-
   EcgPainter(this._chartsData) {
-    _initPaint();
-    _findBounds();
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    _drawGrid(canvas, size);
-    _drawBox(canvas, size);
-    _drawId(canvas, size);
-    _drawChart(canvas, size);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-
-  void _initPaint() {
     _chartPaint = Paint()
       ..color = Colors.blue
       ..style = PaintingStyle.stroke
+      ..isAntiAlias = false
       ..strokeWidth = 1.5;
 
     _boxPaint = Paint()
       ..color = Colors.grey
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.stroke
+      ..isAntiAlias = false;
 
     _gridPaint = Paint()
       ..color = Colors.grey
@@ -58,16 +41,16 @@ class EcgPainter extends CustomPainter {
       ..layout();
   }
 
-  void _findBounds() {
-    _chartsData.chartData.forEach((data) {
-      if (data.value > _max) {
-        _max = data.value;
-      }
-      if (data.value < _min) {
-        _min = data.value;
-      }
-    });
+  @override
+  void paint(Canvas canvas, Size size) {
+    // _drawGrid(canvas, size);
+    _drawBox(canvas, size);
+    _drawId(canvas, size);
+    _drawChart(canvas, size);
   }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => oldDelegate != this;
 
   void _drawBox(Canvas canvas, Size size) {
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), _boxPaint);
@@ -103,15 +86,19 @@ class EcgPainter extends CustomPainter {
     });
   }
 
-  void _drawChart(Canvas canvas, Size size) {
+  Future<void> _drawChart(Canvas canvas, Size size) async {
     final xOffset = size.width / _chartsData.chartData.length;
     var i = 0;
 
     final points = _chartsData.chartData
-        .map<Offset>((data) => Offset(xOffset * ++i,
-            (size.height - 32) * (data.value - _max) / (_min - _max) + 16))
+        .map<Offset>((data) => Offset(
+            xOffset * ++i,
+            (size.height - 32) *
+                    (data.value - _chartsData.max) /
+                    (_chartsData.min - _chartsData.max) +
+                16))
         .toList();
 
-    canvas.drawPoints(PointMode.polygon, points, _chartPaint);
+    canvas.drawPath(Path()..addPolygon(points, false), _chartPaint);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/blocs/login_bloc.dart';
@@ -9,8 +10,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<LoginBloc>(
-        builder: (BuildContext _, LoginBloc bloc, Widget __) =>
-            Scaffold(
+        builder: (BuildContext _, LoginBloc bloc, Widget __) => Scaffold(
               appBar: AppBar(
                 title: Text("mPHM mobile"),
               ),
@@ -62,9 +62,7 @@ class LoginPage extends StatelessWidget {
                                       ),
                                     )
                                   : Text(
-                                      bloc.hasError
-                                          ? "Invalide login/Password"
-                                          : "Login",
+                                      bloc.hasError ? bloc.error : "Login",
                                       style: TextStyle(color: Colors.white),
                                     ),
                               color: Theme.of(context).accentColor,

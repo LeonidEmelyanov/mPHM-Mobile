@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/data/main_repository.dart';
 
@@ -7,7 +8,7 @@ abstract class BaseBloc<T> extends ChangeNotifier {
   final repository = App.getIt.get<MainRepository>();
 
   var _isLoading = false;
-  var _error;
+  String _error;
   T _data;
 
   get isLoading => _isLoading ?? false;
@@ -21,12 +22,14 @@ abstract class BaseBloc<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  get error => _error;
-  get hasError => _error != null;
+  String get error => _error;
+  bool get hasError => _error != null;
 
   @protected
-  set error(Exception error) {
-    _error = error;
+  set error(dynamic error) {
+    _error = error != null
+        ? error is DioError ? error.message : "Invalide login or password"
+        : null;
     _isLoading = false;
     _data = null;
 
