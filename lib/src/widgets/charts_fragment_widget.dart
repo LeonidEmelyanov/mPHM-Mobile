@@ -16,18 +16,31 @@ class ChartsFragmentWidget extends StatelessWidget {
                   Stack(
                     children: [
                       AnimatedOpacity(
-                        opacity: bloc.isLoading ?? false ? 0 : 1,
+                        opacity: bloc.isLoading ? 0 : 1,
                         duration: Duration(milliseconds: 300),
                         child: SingleChildScrollView(
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: viewportConstraints.maxHeight,
-                            ),
-                          ),
+                          child: Column(
+                              children: (bloc.data ?? [])
+                                  .map<Widget>((data) => Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                        child: Container(
+                                          child: RepaintBoundary(
+                                            child: CustomPaint(
+                                              painter: EcgPainter(data),
+                                              isComplex: true,
+                                              willChange: false,
+                                            ),
+                                          ),
+                                          width: double.infinity,
+                                          height: 128,
+                                        ),
+                                      ))
+                                  .toList()),
                         ),
                       ),
                       AnimatedOpacity(
-                        opacity: bloc.isLoading ?? false ? 1 : 0,
+                        opacity: bloc.isLoading ? 1 : 0,
                         duration: Duration(milliseconds: 300),
                         child: Center(
                           child: CircularProgressIndicator(),

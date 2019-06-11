@@ -2,10 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mphm_mobile/src/app.dart';
+import 'package:mphm_mobile/src/data/main_repository.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 
 class EcgPainter extends CustomPainter {
+  final repository = App.getIt.get<MainRepository>();
   final ChartsData _chartsData;
+
   Paint _chartPaint;
   Paint _boxPaint;
   Paint _gridPaint;
@@ -50,7 +54,7 @@ class EcgPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => oldDelegate != this;
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 
   void _drawBox(Canvas canvas, Size size) {
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), _boxPaint);
@@ -86,18 +90,21 @@ class EcgPainter extends CustomPainter {
     });
   }
 
-  Future<void> _drawChart(Canvas canvas, Size size) async {
+  void _drawChart(Canvas canvas, Size size) {
     final xOffset = size.width / _chartsData.chartData.length;
     var i = 0;
 
-    final points = _chartsData.chartData
-        .map<Offset>((data) => Offset(
-            xOffset * ++i,
-            (size.height - 32) *
-                    (data.value - _chartsData.max) /
-                    (_chartsData.min - _chartsData.max) +
-                16))
-        .toList();
+    final points = repository.getChartPoints(
+        _chartsData.id,
+        _chartsData.startPoint,
+        () => _chartsData.chartData
+            .map<Offset>((data) => Offset(
+                xOffset * ++i,
+                (size.height - 32) *
+                        (data.value - _chartsData.max) /
+                        (_chartsData.min - _chartsData.max) +
+                    16))
+            .toList());
 
     canvas.drawPath(Path()..addPolygon(points, false), _chartPaint);
   }

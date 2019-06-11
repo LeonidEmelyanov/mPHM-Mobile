@@ -39,12 +39,14 @@ class ChartsData {
   final List<ChartData> chartData;
   final min;
   final max;
+  final startPoint;
 
   ChartsData({
     @required this.id,
     @required this.chartData,
     @required this.min,
     @required this.max,
+    @required this.startPoint,
   });
 }
 

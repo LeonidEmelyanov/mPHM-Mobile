@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:mphm_mobile/src/api/main_api.dart';
 import 'package:mphm_mobile/src/data/base_repository.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
@@ -84,4 +85,13 @@ class MainRepository extends BaseRepository {
         reload,
         () => _api.getPatientsByDoctor(doctorId),
       );
+
+  List<Offset> getChartPoints(
+    String id,
+    int startPoint,
+    List<Offset> Function() func,
+  ) {
+    final key = "chartPoints/$id/$startPoint";
+    return cash[key] ?? (cash[key] = func());
+  }
 }

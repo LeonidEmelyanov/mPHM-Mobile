@@ -4,18 +4,22 @@ class BaseRepository {
   final _cash = Map<String, dynamic>();
 
   @protected
+  get cash => _cash;
+
+  @protected
   Future<T> getData<T>(
     String key,
     bool reload,
     Future<T> Function() func,
   ) async {
     if (reload) {
-      _clean(key);
+      clean(key);
     }
     return await _cash[key] ?? (_cash[key] = func());
   }
 
-  void _clean(String key) {
+  @protected
+  void clean(String key) {
     _cash.removeWhere((k, _) => k.contains(key));
   }
 }
