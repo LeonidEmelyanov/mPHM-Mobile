@@ -2,12 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mphm_mobile/src/app.dart';
-import 'package:mphm_mobile/src/data/main_repository.dart';
 import 'package:mphm_mobile/src/models/chart_data_fragment_model.dart';
 
 class EcgPainter extends CustomPainter {
-  final repository = App.getIt.get<MainRepository>();
   final ChartsData _chartsData;
 
   Paint _chartPaint;
@@ -94,17 +91,14 @@ class EcgPainter extends CustomPainter {
     final xOffset = size.width / _chartsData.chartData.length;
     var i = 0;
 
-    final points = repository.getChartPoints(
-        _chartsData.id,
-        _chartsData.startPoint,
-        () => _chartsData.chartData
-            .map<Offset>((data) => Offset(
-                xOffset * ++i,
-                (size.height - 32) *
-                        (data.value - _chartsData.max) /
-                        (_chartsData.min - _chartsData.max) +
-                    16))
-            .toList());
+    final points = _chartsData.chartData
+        .map<Offset>((data) => Offset(
+            xOffset * ++i,
+            (size.height - 32) *
+                    (data.value - _chartsData.max) /
+                    (_chartsData.min - _chartsData.max) +
+                16))
+        .toList();
 
     canvas.drawPath(Path()..addPolygon(points, false), _chartPaint);
   }
