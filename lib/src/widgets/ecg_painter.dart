@@ -89,17 +89,32 @@ class EcgPainter extends CustomPainter {
 
   void _drawChart(Canvas canvas, Size size) {
     final xOffset = size.width / _chartsData.chartData.length;
+    final path = Path();
     var i = 0;
 
-    final points = _chartsData.chartData
-        .map<Offset>((data) => Offset(
-            xOffset * ++i,
-            (size.height - 32) *
-                    (data.value - _chartsData.max) /
-                    (_chartsData.min - _chartsData.max) +
-                16))
-        .toList();
+    _chartsData.chartData.forEach((data) {
+      final x = xOffset * i;
+      final y = (size.height - 32) *
+              (data.value - _chartsData.max) /
+              (_chartsData.min - _chartsData.max) +
+          16;
 
-    canvas.drawPath(Path()..addPolygon(points, false), _chartPaint);
+      if (i++ == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    });
+
+    // final points = _chartsData.chartData
+    //     .map<Offset>((data) => Offset(
+    //         xOffset * ++i,
+    //         (size.height - 32) *
+    //                 (data.value - _chartsData.max) /
+    //                 (_chartsData.min - _chartsData.max) +
+    //             16))
+    //     .toList();
+
+    canvas.drawPath(path, _chartPaint);
   }
 }
